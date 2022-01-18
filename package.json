@@ -1,0 +1,33 @@
+{
+  "name": "scrollview",
+  "widgetName": "Scrollview",
+  "version": "1.0.0",
+  "description": "Native Custom Scrollview",
+  "copyright": "GNU",
+  "author": "Ockert van Schalkwyk",
+  "engines": {
+    "node": ">=12"
+  },
+  "config": {
+    "projectPath": "./tests/testProject/"
+  },
+  "packagePath": "entidad",
+  "scripts": {
+    "start": "pluggable-widgets-tools start:native",
+    "build": "pluggable-widgets-tools build:native",
+    "lint": "pluggable-widgets-tools lint",
+    "lint:fix": "pluggable-widgets-tools lint:fix",
+    "prerelease": "npm run lint",
+    "release": "pluggable-widgets-tools release:native"
+  },
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/Ockert van Schalkwyk/scrollview/issues"
+  },
+  "devDependencies": {
+    "@mendix/pluggable-widgets-tools": "^9.0.0"
+  },
+  "dependencies": {
+
+  }
+}
