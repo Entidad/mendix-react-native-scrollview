@@ -1,17 +1,17 @@
 ## Scrollview
-[Native Custom Scrollview]
+Custom React-Native Scrollview
 
 ## Features
-[feature highlights]
+* Scroll to bottom
 
 ## Usage
-[step by step instructions]
+Add `entidad.Scrollview.mpk` to `./widgets/` in your project directory, refresh your widgets in the Mendix IDE, add the widget on a page, place your contents in the allocated area.
 
 ## Demo project
-[link to sandbox]
+None at this time
 
 ## Issues, suggestions and feature requests
-[link to GitHub issues]
+...
 
 ## Development and contribution
 
