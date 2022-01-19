@@ -1,42 +1,44 @@
-import { Component, createElement } from "react";
-//import { Text, View } from "react-native";
-import { ScrollView } from "react-native";
-
-import { mergeNativeStyles } from "@mendix/pluggable-widgets-tools";
-
-const defaultStyle = {
-	container: {},
-	label: {
-		color: "#F6BB42"
+import{Component,createElement}from"react";
+import{ScrollView}from"react-native";
+import{mergeNativeStyles}from"@mendix/pluggable-widgets-tools";
+const defaultStyle={
+	container:{},
+	label:{
+		color:"#F6BB42"
 	}
 };
-
-export class ScrollViewComponent extends Component {
-	styles = mergeNativeStyles(defaultStyle, this.props.style);
-		/*
-	render() {
-		return (
-			<View style={this.styles.container}>
-				<Text style={this.styles.label}>test</Text>
-			</View>
-		);
+export class ScrollViewComponent extends Component{
+	styles=mergeNativeStyles(defaultStyle,this.props.style);
+	constructor(props){
+		super(props);
+		this.scrollViewRef=null;
 	}
-	*/
-	render() {
+	componentDidMount(){
+		//console.warn("componentDidMount")
+		try{
+			this.scrollViewRef.scrollToEnd({animated:true});
+		}catch(e){
+			console.warn(e.toString());
+		}
+	}
+	render(){
 		return (
 			<ScrollView
-				ref="scrollView"
+				ref={
+					(scroll)=>{
+						//console.warn("ScrollView:ref");
+						this.scrollViewRef=scroll;
+					}
+				}
 				style={this.styles.container}
-				ref={this.scrollViewRef}
 				onContentSizeChange={()=>{
-					//this.scrollViewRef.current?.scrollToEnd({animated:true});
+					//console.warn("ScrollView:onContentSizeChange");
 					try{
-						this.refs.scrollViewRef?.scrollToEnd({animated:true});
+						this.scrollViewRef.scrollToEnd({animated:true});
 					}catch(e){
-						console.error(e.toString());
+						console.warn(e.toString());
 					}
 				}}
-
 			>
 				{this.props.basicContent}
 			</ScrollView>
