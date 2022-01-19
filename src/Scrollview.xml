@@ -17,6 +17,11 @@
 				<caption>Basic content</caption>
 				<description></description>
 			</property>
+			<property key="scrollTimeout" type="integer" required="true" defaultValue="0">
+				<caption>Scroll Timeout</caption>
+				<description>Scroll delay (ms)</description>
+			</property>
+
 	</propertyGroup>
 	</properties>
 </widget>

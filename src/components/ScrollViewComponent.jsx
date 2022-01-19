@@ -12,13 +12,18 @@ export class ScrollViewComponent extends Component{
 	constructor(props){
 		super(props);
 		this.scrollViewRef=null;
+		this.busyScrolling=false;
 	}
 	componentDidMount(){
-		//console.warn("componentDidMount")
-		try{
-			this.scrollViewRef.scrollToEnd({animated:true});
-		}catch(e){
-			console.warn(e.toString());
+		if(!this.busyScrolling){
+			this.busyScrolling=true;
+			try{
+				this.scrollViewRef.scrollToEnd({animated:true});
+				this.busyScrolling=false;
+			}catch(e){
+				this.busyScrolling=false;
+				console.warn(e.toString());
+			}
 		}
 	}
 	render(){
@@ -32,12 +37,19 @@ export class ScrollViewComponent extends Component{
 				}
 				style={this.styles.container}
 				onContentSizeChange={()=>{
-					//console.warn("ScrollView:onContentSizeChange");
-					try{
-						this.scrollViewRef.scrollToEnd({animated:true});
-					}catch(e){
-						console.warn(e.toString());
-					}
+					setTimeout(()=>{
+						if(!this.busyScrolling){
+							this.busyScrolling=true;
+							try{
+								this.scrollViewRef.scrollToEnd({animated:true});
+								this.busyScrolling=false;
+							}catch(e){
+								console.warn(e.toString());
+								this.busyScrolling=false;
+							}
+						}
+					},this.props.scrollTimeout);
+
 				}}
 			>
 				{this.props.basicContent}
