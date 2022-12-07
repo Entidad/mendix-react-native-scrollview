@@ -22,7 +22,7 @@ export class ScrollViewComponent extends Component{
 				this.busyScrolling=false;
 			}catch(e){
 				this.busyScrolling=false;
-				console.warn(e.toString());
+				//console.warn(e.toString());
 			}
 		}
 	}
