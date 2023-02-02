@@ -15,7 +15,7 @@ export class ScrollViewComponent extends Component{
 		this.busyScrolling=false;
 	}
 	componentDidMount(){
-		if(!this.busyScrolling){
+		if(this.props.autoScroll&&!this.busyScrolling){
 			this.busyScrolling=true;
 			try{
 				this.scrollViewRef.scrollToEnd({animated:true});
@@ -37,18 +37,20 @@ export class ScrollViewComponent extends Component{
 				}
 				style={this.styles.container}
 				onContentSizeChange={()=>{
-					setTimeout(()=>{
-						if(!this.busyScrolling){
-							this.busyScrolling=true;
-							try{
-								this.scrollViewRef.scrollToEnd({animated:true});
-								this.busyScrolling=false;
-							}catch(e){
-								console.warn(e.toString());
-								this.busyScrolling=false;
+					if(this.props.autoScroll){
+						setTimeout(()=>{
+							if(!this.busyScrolling){
+								this.busyScrolling=true;
+								try{
+									this.scrollViewRef.scrollToEnd({animated:true});
+									this.busyScrolling=false;
+								}catch(e){
+									console.warn(e.toString());
+									this.busyScrolling=false;
+								}
 							}
-						}
-					},this.props.scrollTimeout);
+						},this.props.scrollTimeout);
+					}
 
 				}}
 			>

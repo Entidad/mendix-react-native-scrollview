@@ -21,7 +21,10 @@
 				<caption>Scroll Timeout</caption>
 				<description>Scroll delay (ms)</description>
 			</property>
-
+			<property key="autoScroll" type="boolean" required="true" defaultValue="true">
+				<caption>Auto Scroll</caption>
+				<description>Automatically scroll down</description>
+			</property>
 	</propertyGroup>
 	</properties>
 </widget>

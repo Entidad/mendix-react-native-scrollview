@@ -2,9 +2,8 @@
 Custom React-Native ScrollView. This widget serves as a base implementing custom ScrollView features.
 
 ## Features
-At this point
 
-* Hardcoded Scroll to bottom
+* Configurable autoscroll
 
 ## Usage
 Download one of the [releases](https://github.com/Entidad/mendix-react-native-scrollview) or build from source as follows

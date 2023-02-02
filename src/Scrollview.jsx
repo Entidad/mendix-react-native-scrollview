@@ -5,6 +5,7 @@ export class Scrollview extends Component{
 		return <ScrollViewComponent
 			basicContent={this.props.basicContent}
 			scrollTimeout={this.props.scrollTimeout}
+			autoScroll={this.props.autoScroll}
 			style={this.props.style}
 		/>;
 	}
