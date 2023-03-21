@@ -1,7 +1,7 @@
 {
   "name": "scrollview",
   "widgetName": "Scrollview",
-  "version": "0.0.6",
+  "version": "0.0.5",
   "description": "Native Custom Scrollview",
   "copyright": "GNU",
   "author": "Ockert van Schalkwyk",
