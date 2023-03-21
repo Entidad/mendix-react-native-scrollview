@@ -11,10 +11,19 @@ export class ScrollViewComponent extends Component{
 	styles=mergeNativeStyles(defaultStyle,this.props.style);
 	constructor(props){
 		super(props);
+		this.cnam="ScrollViewComponent";
+		this.log("constructor:begin");
 		this.scrollViewRef=null;
 		this.busyScrolling=false;
-	}
+		this.position="top";
+		this.log("constructor:end");
+        }
+        log(v){
+                if(!this.props.debugon)return;
+                console.info(`${this.cnam}:${v}`);
+        }
 	componentDidMount(){
+		this.log("componentDidMount:begin");
 		if(this.props.autoScroll&&!this.busyScrolling){
 			this.busyScrolling=true;
 			try{
@@ -22,36 +31,82 @@ export class ScrollViewComponent extends Component{
 				this.busyScrolling=false;
 			}catch(e){
 				this.busyScrolling=false;
-				//console.warn(e.toString());
 			}
 		}
+		this.log("componentDidMount:end");
+	}
+	//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+	atTop({layoutMeasurement,contentOffset,contentSize}){
+		return layoutMeasurement.height+contentOffset.y>=contentSize.height-this.props.scrollRegionThreshold;
+	}
+	//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+	atBottom({layoutMeasurement,contentOffset,contentSize}){
+		//return contentOffset.y==0;
+		return contentOffset.y<=this.props.scrollRegionThreshold;
 	}
 	render(){
+		this.log("render:begin");
+		this.log("render:end");
 		return (
 			<ScrollView
 				ref={
 					(scroll)=>{
-						//console.warn("ScrollView:ref");
 						this.scrollViewRef=scroll;
 					}
 				}
 				style={this.styles.container}
+				onScroll={({nativeEvent})=>{
+					//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+					try{
+						if(this.position!="top"&&this.atTop(nativeEvent)){
+							this.position="top";
+							try{
+								this.props.onScrollBottom();
+							}catch(e){
+								console.error(e.toString());
+							}
+						}else if(this.position!="bottom"&&this.atBottom(nativeEvent)){
+							this.position="bottom";
+							try{
+								this.props.onScrollTop();
+							}catch(e){
+								console.error(e.toString());
+							}
+						}
+					}catch(e){
+						console.error(e.toString());
+					}
+				}}
 				onContentSizeChange={()=>{
 					if(this.props.autoScroll){
 						setTimeout(()=>{
 							if(!this.busyScrolling){
+								this.log("onContentSizeChange:begin");
 								this.busyScrolling=true;
 								try{
 									this.scrollViewRef.scrollToEnd({animated:true});
-									this.busyScrolling=false;
+									//0.0.5
+									setTimeout(()=>{
+										this.busyScrolling=false;
+									},this.props.scrollTimeout);
 								}catch(e){
-									console.warn(e.toString());
-									this.busyScrolling=false;
+									console.error(e.toString());
+									//0.0.5
+									setTimeout(()=>{
+										this.busyScrolling=false;
+									},this.props.scrollTimeout);
 								}
+								//0.0.5
+								try{
+									this.props.onAutoScroll();
+								}catch(e){
+									console.error(e.toString());
+								}
+								this.log("onContentSizeChange:end");
+							}else{
 							}
 						},this.props.scrollTimeout);
 					}
-
 				}}
 			>
 				{this.props.basicContent}

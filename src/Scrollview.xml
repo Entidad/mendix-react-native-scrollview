@@ -25,7 +25,34 @@
 				<caption>Auto Scroll</caption>
 				<description>Automatically scroll down</description>
 			</property>
-	</propertyGroup>
+		</propertyGroup>
+                <propertyGroup caption="Actions">
+			<property key="onAutoScroll" type="action" required="false">
+				<caption>On Auto Scroll</caption>
+				<description>Action to execute when autoscroll executes</description>
+			</property>
+			<property key="onScrollTop" type="action" required="false">
+				<caption>On Top</caption>
+				<description>Action to execute when user scrolls to top</description>
+			</property>
+			<property key="onScrollBottom" type="action" required="false">
+				<caption>On Bottom</caption>
+				<description>Action to execute when user scrolls to bottom</description>
+			</property>
+			<property key="scrollRegionThreshold" type="integer" required="true" defaultValue="40">
+				<caption>Region Threshold</caption>
+				<description>Scroll region threshold (pixels)</description>
+			</property>
+		</propertyGroup>
+                <propertyGroup caption="Misc">
+			<property key="debugon" type="boolean" required="true" defaultValue="false">
+				<caption>Debug</caption>
+				<description>Debug messages on</description>
+			</property>
+			<property key="_" type="boolean" required="true" defaultValue="false">
+				<caption>Version 0.0.5</caption>
+				<description></description>
+			</property>
+		</propertyGroup>
 	</properties>
 </widget>
-
