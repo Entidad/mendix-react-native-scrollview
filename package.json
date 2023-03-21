@@ -1,7 +1,7 @@
 {
   "name": "scrollview",
   "widgetName": "Scrollview",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Native Custom Scrollview",
   "copyright": "GNU",
   "author": "Ockert van Schalkwyk",
@@ -9,7 +9,7 @@
     "node": ">=12"
   },
   "config": {
-    "projectPath": "/mnt/c/Users/ockert/src/entidad/mendix-native-template-scrollview"
+    "projectPath": "/mnt/c/Users/ockert/src/entidad/mendix-native-template-scrollview/prj"
   },
   "packagePath": "entidad",
   "scripts": {

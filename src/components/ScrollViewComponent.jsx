@@ -15,7 +15,7 @@ export class ScrollViewComponent extends Component{
 		this.log("constructor:begin");
 		this.scrollViewRef=null;
 		this.busyScrolling=false;
-		this.position="top";
+		this.position=null;//"top";
 		this.log("constructor:end");
         }
         log(v){
