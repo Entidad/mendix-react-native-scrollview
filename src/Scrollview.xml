@@ -50,7 +50,7 @@
 				<description>Debug messages on</description>
 			</property>
 			<property key="_" type="boolean" required="true" defaultValue="false">
-				<caption>Version 0.0.5</caption>
+				<caption>Version 0.0.6</caption>
 				<description></description>
 			</property>
 		</propertyGroup>

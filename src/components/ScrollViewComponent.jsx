@@ -17,6 +17,8 @@ export class ScrollViewComponent extends Component{
 		this.busyScrolling=false;
 		this.position=null;//"top";
 		this.log("constructor:end");
+		this.contentHeight=null;
+		this.layoutHeight=null;
         }
         log(v){
                 if(!this.props.debugon)return;
@@ -55,8 +57,20 @@ export class ScrollViewComponent extends Component{
 					}
 				}
 				style={this.styles.container}
+				onLayout={({nativeEvent})=>{
+					this.log("onLayout:begin");
+					const layoutHeight=nativeEvent.layout.height;
+					if(this.layoutHeight==null)this.layoutHeight=layoutHeight;
+					this.log("onLayout:layoutHeight:"+layoutHeight);
+					if(this.contentHeight<this.layoutHeight){
+						this.props.onScrollTop();
+						this.props.onScrollBottom();
+					}else{
+					}
+					this.log("onLayout:end");
+				}}
 				onScroll={({nativeEvent})=>{
-					//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+					this.log("onScroll:begin");
 					try{
 						if(this.position!="top"&&this.atTop(nativeEvent)){
 							this.position="top";
@@ -65,7 +79,9 @@ export class ScrollViewComponent extends Component{
 							}catch(e){
 								console.error(e.toString());
 							}
-						}else if(this.position!="bottom"&&this.atBottom(nativeEvent)){
+						}
+						//}else if(this.position!="bottom"&&this.atBottom(nativeEvent)){
+						if(this.position!="bottom"&&this.atBottom(nativeEvent)){
 							this.position="bottom";
 							try{
 								this.props.onScrollTop();
@@ -76,12 +92,20 @@ export class ScrollViewComponent extends Component{
 					}catch(e){
 						console.error(e.toString());
 					}
+					this.log("onScroll:end");
 				}}
-				onContentSizeChange={()=>{
+				onContentSizeChange={(contentWidth,contentHeight)=>{
+					this.log("onContentSizeChange:begin");
+					this.log("onContentSizeChange:contentWidth:"+contentWidth);
+					this.log("onContentSizeChange:contentHeight:"+contentHeight);
+					if(this.contentHeight==null)this.contentHeight=contentHeight;
+					//scrollTo
+					//return contentOffset.y<=this.props.scrollRegionThreshold;
+					//this.log(JSON.stringify(Object.keys(this.scrollViewRef)));//=scroll;
+					//["_nativeTag","_children","viewConfig","getScrollResponder","getScrollableNode","getInnerViewNode","getInnerViewRef","getNativeScrollRef","scrollTo","scrollToEnd","flashScrollIndicators","scrollResponderZoomTo","scrollResponderScrollNativeHandleToKeyboard"]
 					if(this.props.autoScroll){
 						setTimeout(()=>{
 							if(!this.busyScrolling){
-								this.log("onContentSizeChange:begin");
 								this.busyScrolling=true;
 								try{
 									this.scrollViewRef.scrollToEnd({animated:true});
@@ -102,11 +126,11 @@ export class ScrollViewComponent extends Component{
 								}catch(e){
 									console.error(e.toString());
 								}
-								this.log("onContentSizeChange:end");
 							}else{
 							}
 						},this.props.scrollTimeout);
 					}
+					this.log("onContentSizeChange:end");
 				}}
 			>
 				{this.props.basicContent}
