@@ -61,12 +61,18 @@ export class ScrollViewComponent extends Component{
 					this.log("onLayout:begin");
 					const layoutHeight=nativeEvent.layout.height;
 					if(this.layoutHeight==null)this.layoutHeight=layoutHeight;
+					setTimeout(()=>{
+						if(
+							this.contentHeight!=null&&
+							this.layoutHeight!=null&&
+							this.contentHeight<this.layoutHeight
+						){
+							this.props.onScrollTop();
+							this.props.onScrollBottom();
+						}else{
+						}
+					},this.props.scrollTimeout);
 					this.log("onLayout:layoutHeight:"+layoutHeight);
-					if(this.contentHeight<this.layoutHeight){
-						this.props.onScrollTop();
-						this.props.onScrollBottom();
-					}else{
-					}
 					this.log("onLayout:end");
 				}}
 				onScroll={({nativeEvent})=>{
@@ -98,7 +104,10 @@ export class ScrollViewComponent extends Component{
 					this.log("onContentSizeChange:begin");
 					this.log("onContentSizeChange:contentWidth:"+contentWidth);
 					this.log("onContentSizeChange:contentHeight:"+contentHeight);
-					if(this.contentHeight==null)this.contentHeight=contentHeight;
+					//todo: timeout
+					/*if(this.contentHeight==null)*/this.contentHeight=contentHeight;
+
+
 					//scrollTo
 					//return contentOffset.y<=this.props.scrollRegionThreshold;
 					//this.log(JSON.stringify(Object.keys(this.scrollViewRef)));//=scroll;
