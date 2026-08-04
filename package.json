@@ -1,17 +1,17 @@
 {
   "name": "scrollview",
   "widgetName": "Scrollview",
-  "version": "0.0.7",
+  "version": "2.0.0",
   "description": "Native Custom Scrollview",
-  "copyright": "GNU",
+  "copyright": "©Entidad 2021-2026. All Rights Reserved.",
   "author": "Ockert van Schalkwyk",
   "engines": {
-    "node": ">=12"
+    "node": ">=20.19.4"
   },
   "config": {
-    "projectPath": "/mnt/c/Users/ockert/src/entidad/mendix-native-template-scrollview/prj"
+    "projectPath": "./test/"
   },
-  "packagePath": "entidad",
+  "packagePath": "entidad.io.native",
   "scripts": {
     "start": "pluggable-widgets-tools start:native",
     "build": "pluggable-widgets-tools build:native",
@@ -20,14 +20,21 @@
     "prerelease": "npm run lint",
     "release": "pluggable-widgets-tools release:native"
   },
-  "license": "GNU",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/Ockert van Schalkwyk/scrollview/issues"
+    "url": "https://github.com/Entidad/mendix-react-native-scrollview/issues"
   },
   "devDependencies": {
-    "@mendix/pluggable-widgets-tools": "^9.0.0"
+    "@mendix/pluggable-widgets-tools": "^11.12.0"
   },
-  "dependencies": {
-
+  "resolutions": {
+    "react": "^19.2.0",
+    "@types/react": "^19.0.0",
+    "react-native": "0.84.1"
+  },
+  "overrides": {
+    "react": "^19.2.0",
+    "@types/react": "^19.0.0",
+    "react-native": "0.84.1"
   }
 }

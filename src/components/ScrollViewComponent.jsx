@@ -1,149 +1,144 @@
-import{Component,createElement}from"react";
-import{ScrollView}from"react-native";
-import{mergeNativeStyles}from"@mendix/pluggable-widgets-tools";
-const defaultStyle={
-	container:{},
-	label:{
-		color:"#F6BB42"
-	}
+import { Component } from "react";
+import { ScrollView } from "react-native";
+import { mergeNativeStyles } from "@mendix/pluggable-widgets-tools";
+const defaultStyle = {
+    container: {},
+    label: {
+        color: "#F6BB42"
+    }
 };
-export class ScrollViewComponent extends Component{
-	styles=mergeNativeStyles(defaultStyle,this.props.style);
-	constructor(props){
-		super(props);
-		this.cnam="ScrollViewComponent";
-		this.log("constructor:begin");
-		this.scrollViewRef=null;
-		this.busyScrolling=false;
-		this.position=null;//"top";
-		this.log("constructor:end");
-		this.contentHeight=null;
-		this.layoutHeight=null;
+export class ScrollViewComponent extends Component {
+    styles = mergeNativeStyles(defaultStyle, this.props.style);
+    constructor(props) {
+        super(props);
+        this.cnam = "ScrollViewComponent";
+        this.log("constructor:begin");
+        this.scrollViewRef = null;
+        this.busyScrolling = false;
+        this.position = null; //"top";
+        this.log("constructor:end");
+        this.contentHeight = null;
+        this.layoutHeight = null;
+    }
+    log(v) {
+        if (!this.props.debugon) return;
+        console.info(`${this.cnam}:${v}`);
+    }
+    componentDidMount() {
+        this.log("componentDidMount:begin");
+        if (this.props.autoScroll && !this.busyScrolling) {
+            this.busyScrolling = true;
+            try {
+                this.scrollViewRef.scrollToEnd({ animated: true });
+                this.busyScrolling = false;
+            } catch (e) {
+                this.busyScrolling = false;
+            }
         }
-        log(v){
-                if(!this.props.debugon)return;
-                console.info(`${this.cnam}:${v}`);
-        }
-	componentDidMount(){
-		this.log("componentDidMount:begin");
-		if(this.props.autoScroll&&!this.busyScrolling){
-			this.busyScrolling=true;
-			try{
-				this.scrollViewRef.scrollToEnd({animated:true});
-				this.busyScrolling=false;
-			}catch(e){
-				this.busyScrolling=false;
-			}
-		}
-		this.log("componentDidMount:end");
-	}
-	//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
-	atTop({layoutMeasurement,contentOffset,contentSize}){
-		return layoutMeasurement.height+contentOffset.y>=contentSize.height-this.props.scrollRegionThreshold;
-	}
-	//https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
-	atBottom({layoutMeasurement,contentOffset,contentSize}){
-		//return contentOffset.y==0;
-		return contentOffset.y<=this.props.scrollRegionThreshold;
-	}
-	render(){
-		this.log("render:begin");
-		this.log("render:end");
-		return (
-			<ScrollView
-				ref={
-					(scroll)=>{
-						this.scrollViewRef=scroll;
-					}
-				}
-				style={this.styles.container}
-				onLayout={({nativeEvent})=>{
-					this.log("onLayout:begin");
-					const layoutHeight=nativeEvent.layout.height;
-					if(this.layoutHeight==null)this.layoutHeight=layoutHeight;
-					setTimeout(()=>{
-						if(
-							this.contentHeight!=null&&
-							this.layoutHeight!=null&&
-							this.contentHeight<this.layoutHeight
-						){
-							this.props.onScrollTop();
-							this.props.onScrollBottom();
-						}else{
-						}
-					},this.props.scrollTimeout);
-					this.log("onLayout:layoutHeight:"+layoutHeight);
-					this.log("onLayout:end");
-				}}
-				onScroll={({nativeEvent})=>{
-					this.log("onScroll:begin");
-					try{
-						if(this.position!="top"&&this.atTop(nativeEvent)){
-							this.position="top";
-							try{
-								this.props.onScrollBottom();
-							}catch(e){
-								console.error(e.toString());
-							}
-						}
-						//}else if(this.position!="bottom"&&this.atBottom(nativeEvent)){
-						if(this.position!="bottom"&&this.atBottom(nativeEvent)){
-							this.position="bottom";
-							try{
-								this.props.onScrollTop();
-							}catch(e){
-								console.error(e.toString());
-							}
-						}
-					}catch(e){
-						console.error(e.toString());
-					}
-					this.log("onScroll:end");
-				}}
-				onContentSizeChange={(contentWidth,contentHeight)=>{
-					this.log("onContentSizeChange:begin");
-					this.log("onContentSizeChange:contentWidth:"+contentWidth);
-					this.log("onContentSizeChange:contentHeight:"+contentHeight);
-					//todo: timeout
-					/*if(this.contentHeight==null)*/this.contentHeight=contentHeight;
+        this.log("componentDidMount:end");
+    }
+    //https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+    atTop({ layoutMeasurement, contentOffset, contentSize }) {
+        return layoutMeasurement.height + contentOffset.y >= contentSize.height - this.props.scrollRegionThreshold;
+    }
+    //https://stackoverflow.com/questions/41056761/detect-scrollview-has-reached-the-end
+    atBottom({ layoutMeasurement, contentOffset, contentSize }) {
+        //return contentOffset.y==0;
+        return contentOffset.y <= this.props.scrollRegionThreshold;
+    }
+    render() {
+        this.log("render:begin");
+        this.log("render:end");
+        return (
+            <ScrollView
+                ref={scroll => {
+                    this.scrollViewRef = scroll;
+                }}
+                style={this.styles.container}
+                onLayout={({ nativeEvent }) => {
+                    this.log("onLayout:begin");
+                    const layoutHeight = nativeEvent.layout.height;
+                    if (this.layoutHeight == null) this.layoutHeight = layoutHeight;
+                    setTimeout(() => {
+                        if (
+                            this.contentHeight != null &&
+                            this.layoutHeight != null &&
+                            this.contentHeight < this.layoutHeight
+                        ) {
+                            this.props.onScrollTop();
+                            this.props.onScrollBottom();
+                        }
+                    }, this.props.scrollTimeout);
+                    this.log("onLayout:layoutHeight:" + layoutHeight);
+                    this.log("onLayout:end");
+                }}
+                onScroll={({ nativeEvent }) => {
+                    this.log("onScroll:begin");
+                    try {
+                        if (this.position !== "top" && this.atTop(nativeEvent)) {
+                            this.position = "top";
+                            try {
+                                this.props.onScrollBottom();
+                            } catch (e) {
+                                console.error(e.toString());
+                            }
+                        }
+                        //}else if(this.position!="bottom"&&this.atBottom(nativeEvent)){
+                        if (this.position !== "bottom" && this.atBottom(nativeEvent)) {
+                            this.position = "bottom";
+                            try {
+                                this.props.onScrollTop();
+                            } catch (e) {
+                                console.error(e.toString());
+                            }
+                        }
+                    } catch (e) {
+                        console.error(e.toString());
+                    }
+                    this.log("onScroll:end");
+                }}
+                onContentSizeChange={(contentWidth, contentHeight) => {
+                    this.log("onContentSizeChange:begin");
+                    this.log("onContentSizeChange:contentWidth:" + contentWidth);
+                    this.log("onContentSizeChange:contentHeight:" + contentHeight);
+                    //todo: timeout
+                    /*if(this.contentHeight==null)*/ this.contentHeight = contentHeight;
 
-
-					//scrollTo
-					//return contentOffset.y<=this.props.scrollRegionThreshold;
-					//this.log(JSON.stringify(Object.keys(this.scrollViewRef)));//=scroll;
-					//["_nativeTag","_children","viewConfig","getScrollResponder","getScrollableNode","getInnerViewNode","getInnerViewRef","getNativeScrollRef","scrollTo","scrollToEnd","flashScrollIndicators","scrollResponderZoomTo","scrollResponderScrollNativeHandleToKeyboard"]
-					if(this.props.autoScroll){
-						setTimeout(()=>{
-							if(!this.busyScrolling){
-								this.busyScrolling=true;
-								try{
-									this.scrollViewRef.scrollToEnd({animated:true});
-									//0.0.5
-									setTimeout(()=>{
-										this.busyScrolling=false;
-									},this.props.scrollTimeout);
-								}catch(e){
-									console.error(e.toString());
-									//0.0.5
-									setTimeout(()=>{
-										this.busyScrolling=false;
-									},this.props.scrollTimeout);
-								}
-								//0.0.5
-								try{
-									this.props.onAutoScroll();
-								}catch(e){
-									console.error(e.toString());
-								}
-							}else{
-							}
-						},this.props.scrollTimeout);
-					}
-					this.log("onContentSizeChange:end");
-				}}
-			>
-				{this.props.basicContent}
-			</ScrollView>
-		);
-	}
+                    //scrollTo
+                    //return contentOffset.y<=this.props.scrollRegionThreshold;
+                    //this.log(JSON.stringify(Object.keys(this.scrollViewRef)));//=scroll;
+                    //["_nativeTag","_children","viewConfig","getScrollResponder","getScrollableNode","getInnerViewNode","getInnerViewRef","getNativeScrollRef","scrollTo","scrollToEnd","flashScrollIndicators","scrollResponderZoomTo","scrollResponderScrollNativeHandleToKeyboard"]
+                    if (this.props.autoScroll) {
+                        setTimeout(() => {
+                            if (!this.busyScrolling) {
+                                this.busyScrolling = true;
+                                try {
+                                    this.scrollViewRef.scrollToEnd({ animated: true });
+                                    //0.0.5
+                                    setTimeout(() => {
+                                        this.busyScrolling = false;
+                                    }, this.props.scrollTimeout);
+                                } catch (e) {
+                                    console.error(e.toString());
+                                    //0.0.5
+                                    setTimeout(() => {
+                                        this.busyScrolling = false;
+                                    }, this.props.scrollTimeout);
+                                }
+                                //0.0.5
+                                try {
+                                    this.props.onAutoScroll();
+                                } catch (e) {
+                                    console.error(e.toString());
+                                }
+                            }
+                        }, this.props.scrollTimeout);
+                    }
+                    this.log("onContentSizeChange:end");
+                }}
+            >
+                {this.props.basicContent}
+            </ScrollView>
+        );
+    }
 }
