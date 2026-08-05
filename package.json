@@ -3,7 +3,7 @@
   "widgetName": "Scrollview",
   "version": "2.0.0",
   "description": "Native Custom Scrollview",
-  "copyright": "©Entidad 2021-2026. All Rights Reserved.",
+  "copyright": "© 2021-2026 Entidad. All Rights Reserved.",
   "author": "Ockert van Schalkwyk",
   "engines": {
     "node": ">=20.19.4"
